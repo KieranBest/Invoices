@@ -1,7 +1,7 @@
 name: Monthly Invoice
 on: 
   schedule:
-    - cron: "5 * * * *"
+    - cron: "*/5 * * * *"
 
 jobs:
   Generate_Invoices:
