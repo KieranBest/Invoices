@@ -1,7 +1,7 @@
 name: Monthly Invoice
 on: 
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "15 * * * *"
 
 jobs:
   update-csv:
@@ -12,22 +12,14 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
 
       - name: Install Python Packages
         run: |
           python -m pip install --upgrade pip
+          pip install python-docx
+          pip install python-dateutil
 
       - name: Execute Python Script
-        run: python script.py
-
-        
-      # - name: Update CSV
-      #   uses: actions/update_csv@v1
-
-      # - name: Generate Invoices
-      #   uses: actions/generate_invoices@v1
-
-        
-
-      # - name: Send Invoices
-      #   uses: actions/send_invoices@v1
+        run: python generate_Invoices.py
