@@ -29,5 +29,4 @@ jobs:
         uses: devops-infra/action-commit-push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          add_timestamp: true
           commit_message: Create Invoices
