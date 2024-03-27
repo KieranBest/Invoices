@@ -6,7 +6,8 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 files_list = []
-today = datetime.now().strftime("%A %d %B %Y")
+today = datetime.now() - relativedelta(days=+1)
+last_day = today.strftime("%A %d %B %Y")
 date = datetime.now().strftime("%d-%m-%Y")
 last_month = datetime.now() - relativedelta(months=+1)
 last_month = last_month.strftime("%A %d %B %Y")
@@ -17,7 +18,7 @@ def csvReader():
         line_count = 0
         for row in csv_reader:
             file_name = row[1] + '_Invoice_' + date + '.docx'
-            output_name = 'Invoices/' + row[1] + '_Invoice_' + date + '.pdf'
+            output_name = 'Invoices/' + date + '/' + row[1] + '_Invoice.pdf'
             if line_count == 0:
                 line_count += 1
             else:
@@ -32,7 +33,7 @@ def csvReader():
                 document.add_paragraph('Website: ' + row[2])
                 document.add_paragraph('Email: ' + row[3])
                 document.add_paragraph('Address: ' + row[4] + ", " + row[5] + ", " + row[6] + ", " + row[7])
-                document.add_paragraph('Invoice Period: ' + last_month + ' - ' + today)
+                document.add_paragraph('Invoice Period: ' + last_month + ' - ' + last_day)
 
                 paragraph = document.add_paragraph()
                 run = paragraph.add_run()
@@ -65,6 +66,7 @@ def csvReader():
 
                 document.save(file_name)
 
+        convert("C:/Users/bestk/Documents/Builds/BestWebDev/Invoices/", "C:/Users/bestk/Documents/Builds/BestWebDev/Invoices/PDF/")
 
         print(f'Processed {line_count-1} Entries.')
         
