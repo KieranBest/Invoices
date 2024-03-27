@@ -5,7 +5,6 @@ import os
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-
 files_list = []
 today = datetime.now().strftime("%A %d %B %Y")
 date = datetime.now().strftime("%d-%m-%Y")
@@ -18,6 +17,7 @@ def csvReader():
         line_count = 0
         for row in csv_reader:
             file_name = row[1] + '_Invoice_' + date + '.docx'
+            output_name = 'Invoices/' + row[1] + '_Invoice_' + date + '.pdf'
             if line_count == 0:
                 line_count += 1
             else:
@@ -64,6 +64,7 @@ def csvReader():
                 table.style = 'Light Shading Accent 1'
 
                 document.save(file_name)
+
 
         print(f'Processed {line_count-1} Entries.')
         
