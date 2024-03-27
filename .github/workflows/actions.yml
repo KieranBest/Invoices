@@ -1,7 +1,7 @@
 name: Monthly Invoice
 on: 
   schedule:
-    - cron: "15 * * * *"
+    - cron: "5 * * * *"
 
 jobs:
   update-csv:
@@ -20,6 +20,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install python-docx
           pip install python-dateutil
+          pip install docx2pdf
 
-      - name: Execute Python Script
+      - name: Generate Invoices
         run: python generate_Invoices.py
+
+      - name: Commit and push changes
+        uses: devops-infra/action-commit-push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          add_timestamp: true
+          commit_message: Create Invoice
