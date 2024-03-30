@@ -11,11 +11,12 @@ last_day = today.strftime("%A %d %B %Y")
 date = datetime.now().strftime("%d-%m-%Y")
 last_month = datetime.now() - relativedelta(months=+1)
 last_month = last_month.strftime("%A %d %B %Y")
-
+year = str(datetime.now().year)
+month = str(datetime.now().month)
 
 class PDF(FPDF):
     def header(self):
-        self.image('favicon.png', 155, 10, 40)
+        self.image('../../../favicon.png', 155, 10, 40)
         self.set_font('Helvetica', 'B', 28)
         self.cell(80)
         self.cell(30, 30, 'INVOICE', 0, 1, 'C')
@@ -26,7 +27,9 @@ class PDF(FPDF):
         self.set_font('Helvetica', '', 16)
         self.cell(0, 10, 'Best Web Dev', 0, 0, 'C')
 
-def csvReader():
+def pdf_Generator():
+    os.chdir('Invoices/' + year + '/' + month + '/')
+
     with open('Invoices.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
@@ -42,12 +45,12 @@ def csvReader():
 
 
 
-                pdf.cell(0,10,row[0],0,1,'R')
+                pdf.cell(0,10,row[0] + '-' + row[1],0,1,'R')
                 pdf.cell(0,10,date,0,1,'R')
-                pdf.cell(0,10,'Name: ' + row[1],0,1,'L')
-                pdf.cell(0,10,'Website: ' + row[2],0,1,'L')
-                pdf.cell(0,10,'Email: ' + row[3],0,1,'L')
-                pdf.cell(0,10,'Address: ' + row[4] + ", " + row[5] + ", " + row[6] + ", " + row[7],0,1,'L')
+                pdf.cell(0,10,'Name: ' + row[2],0,1,'L')
+                pdf.cell(0,10,'Website: ' + row[3],0,1,'L')
+                pdf.cell(0,10,'Email: ' + row[4],0,1,'L')
+                pdf.cell(0,10,'Address: ' + row[5] + ", " + row[6] + ", " + row[7] + ", " + row[8],0,1,'L')
                 pdf.cell(0,10,'Invoice Period: ' + last_month + ' - ' + last_day,0,1,'L')
 
                 pdf.ln(15)
@@ -55,13 +58,13 @@ def csvReader():
                 pdf.cell(0,10,'Description',0,0,'L')
                 pdf.cell(0,10,'Amount',0,1,'R')
                 pdf.cell(0,10,'Monthly Fee',0,0,'L')
-                pdf.cell(0,10,''.join(['£', format(float(row[8]), ',.2f')]),0,1,'R')
-                if row[9] != f'0':
+                pdf.cell(0,10,''.join(['£', format(float(row[9]), ',.2f')]),0,1,'R')
+                if row[10] != f'0':
                     pdf.cell(0,10,'Additional Fee',0,0,'L')
-                    pdf.cell(0,10,''.join(['£', format(float(row[9]), ',.2f')]),0,1,'R')
+                    pdf.cell(0,10,''.join(['£', format(float(row[10]), ',.2f')]),0,1,'R')
                 pdf.cell(0,10,'Total Due',0,0,'L')
-                pdf.cell(0,10,''.join(['£', format(float(row[10]), ',.2f')]),0,1,'R')
+                pdf.cell(0,10,''.join(['£', format(float(row[11]), ',.2f')]),0,1,'R')
 
                 pdf.output(file_name + '.pdf', 'F')
 
-csvReader()
+pdf_Generator()

@@ -1,7 +1,7 @@
 name: Monthly Invoice
 on: 
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "0 6 1 * *"
 
 jobs:
   Generate_Invoices:
@@ -21,7 +21,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install python-docx
           pip install python-dateutil
-          pip install docx2pdf
+          pip install fpdf
+
+      - name: Arrange CSV Data
+        run: python arrange_data.py
 
       - name: Generate Invoices
         run: python generate_Invoices.py
