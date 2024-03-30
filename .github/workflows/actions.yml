@@ -22,12 +22,16 @@ jobs:
           pip install python-docx
           pip install python-dateutil
           pip install fpdf
+          pip install js2py
 
       - name: Arrange CSV Data
         run: python arrange_data.py
 
       - name: Generate Invoices
         run: python generate_Invoices.py
+
+      - name: Send Invoices
+        run: python send_Invoice.py
 
       - name: Commit and push changes
         uses: devops-infra/action-commit-push@master

@@ -14,6 +14,15 @@ last_month = last_month.strftime("%A %d %B %Y")
 year = str(datetime.now().year)
 month = str(datetime.now().month)
 
+if (month == '1'):
+    invoice_month = '12'
+    invoice_year = str(int(year) - 1)
+else:
+    invoice_month = month
+    invoice_year = year
+from_folder = invoice_year + '/' + invoice_month + '/Invoices.csv'
+
+
 class PDF(FPDF):
     def header(self):
         self.image('../../../favicon.png', 155, 10, 40)
@@ -28,7 +37,7 @@ class PDF(FPDF):
         self.cell(0, 10, 'Best Web Dev', 0, 0, 'C')
 
 def pdf_Generator():
-    os.chdir('Invoices/' + year + '/' + month + '/')
+    os.chdir('Invoices/' + invoice_year + '/' + invoice_month + '/')
 
     with open('Invoices.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
